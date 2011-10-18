@@ -1,0 +1,183 @@
+BRAIN
+        TYPE NoGauss
+        FSV 10000.000000
+        JOB one
+        SEED 999999
+        DURATION 0.1
+#       CONNECT_REPORT
+        DISTRIBUTE EqualOrder
+        COLUMN_TYPE Col1
+        STIMULUS_INJECT sine1
+        REPORT r1
+END_BRAIN
+
+COLUMN_SHELL
+        TYPE Col1_sh
+        WIDTH 300.000000
+        HEIGHT 800.000000
+        LOCATION 0.000000 1.000000
+END_COLUMN_SHELL
+
+COLUMN
+        TYPE Col1
+        COLUMN_SHELL Col1_sh
+        LAYER_TYPE L1
+END_COLUMN
+
+LAYER_SHELL
+        TYPE L1_sh
+        UPPER 0.000000
+        LOWER 100.000000
+END_LAYER_SHELL
+
+LAYER
+        TYPE L1
+        LAYER_SHELL L1_sh
+        CELL_TYPE Cell1 1
+END_LAYER
+
+CELL
+        TYPE Cell1
+        COMPARTMENT SOMA1 S1 0.000000 0.000000
+END_CELL
+
+COMPARTMENT
+        TYPE SOMA1
+        SPIKESHAPE AP_Hoffman
+        SPIKE_HALFWIDTH     10.000000 0.0
+        TAU_MEMBRANE         0.015000 0.0
+        R_MEMBRANE         200.000000 0.0
+        THRESHOLD          -40.000000 0.0
+        LEAK_REVERSAL        0.000000 0.0
+        LEAK_CONDUCTANCE     0.000000 0.0
+        VMREST             -60.000000 0.0
+        CA_INTERNAL        100.000000 0.0
+        CA_EXTERNAL          0.000000 0.0
+        CA_SPIKE_INCREMENT 300.000000 0.0
+        CA_TAU               0.070000 0.0
+#       CHANNEL ahp-1
+        CHANNEL m-1
+#       CHANNEL a-1
+END_COMPARTMENT
+
+CHANNEL Km
+        TYPE m-1
+        REVERSAL_POTENTIAL -80.000000 0.0
+        M_INITIAL            0.300000 0.0
+        M_POWER              1.000000 0.0
+        E_HALF_MIN_M       -44.000000 0.0
+        SLOPE_FACTOR_M      40.000000 20.000000 8.800000
+        SLOPE_FACTOR_M_STDEV 0.000000
+        TAU_SCALE_FACTOR_M   0.303000 0.0
+        UNITARY_G            0.084000 0.0
+        STRENGTH             0.060000 0.0
+END_CHANNEL
+
+CHANNEL Ka
+        TYPE a-1
+        REVERSAL_POTENTIAL   -80.000000 0.0
+        M_INITIAL              0.300000 0.0
+        M_POWER                1.000000 0.0
+        E_HALF_MIN_M         -21.300000 0.0
+        SLOPE_FACTOR_M        35.000000
+        V_TAU_VOLTAGE_M      100.000000
+        V_TAU_VALUE_M          0.000200 9999.000000
+        H_INITIAL              0.600000 0.0
+        H_POWER                1.000000 0.0
+        E_HALF_MIN_H         -58.300000 0.0
+        SLOPE_FACTOR_H         8.200000
+        V_TAU_VOLTAGE_H      -21.000000 -1.000000 10.000000 21.000000
+        V_TAU_VALUE_H          0.005000 0.001000 0.015000 0.020000 0.250000
+        UNITARY_G              0.120000 0.0
+        STRENGTH               0.100000 0.0
+END_CHANNEL
+
+CHANNEL Kahp
+        TYPE ahp-1
+        REVERSAL_POTENTIAL -80.000000 0.0
+        M_INITIAL            0.300000 0.0
+        M_POWER              2.000000 0.0
+        CA_SCALE_FACTOR      0.000125 0.0
+        CA_EXP_FACTOR        2.000000 0.0
+        CA_HALF_MIN          2.500000 0.0
+        CA_TAU_SCALE_FACTOR  0.003000 0.0
+        UNITARY_G            0.054000 0.0
+        STRENGTH             0.200000 0.0
+END_CHANNEL
+
+SPIKESHAPE
+        TYPE AP_Hoffman
+        VOLTAGES -38.000000 -35.000000 -30.000000 -20.000000 -7.000000 15.000000 30.000000 20.000000 7.000000 -8.000000 -16.000000 -22.000000 -28.000000 -33.000000 -37.000000 -40.000000 -43.000000 -45.000000 -47.000000 -49.000000 -50.000000 
+END_SPIKESHAPE
+
+SYNAPSE
+        TYPE             SYN_1
+        SYN_PSG          PSGexcit
+        SYN_REVERSAL     2.000000 0.0
+        LEARN_LABEL      0Hebb
+        ABSOLUTE_USE     0.250000 0.0
+        PREV_SPIKE_RANGE 0.040000 0.04
+        SFD_LABEL        F2
+        RSE_INIT         0.200000 0.2
+        MAX_CONDUCT      0.080000 
+        DELAY            0.0001 0.0001
+END_SYNAPSE
+
+SYN_PSG
+        TYPE PSGexcit
+        PSG_FILE EPSC.txt
+END_SYN_PSG
+
+SYN_PSG
+        TYPE PSGinhib
+        PSG_FILE IPSC.txt
+END_SYN_PSG
+
+SYN_FACIL_DEPRESS
+        TYPE F2
+        SFD BOTH
+        FACIL_TAU  0.021000 0.0
+        DEPR_TAU   0.706000 0.0
+END_SYN_FACIL_DEPRESS
+
+SYN_LEARNING
+        TYPE           0Hebb
+        LEARNING       NONE
+        NEG_HEB_WINDOW         0.040000 0.000000
+        NEG_HEB_PEAK_DELTA_USE 0.010000 0.000000
+        NEG_HEB_PEAK_TIME      0.010000 0.000000
+        POS_HEB_WINDOW         0.040000 0.000000
+        POS_HEB_PEAK_DELTA_USE 0.005000 0.000000
+        POS_HEB_PEAK_TIME      0.010000 0.000000
+END_SYN_LEARNING
+
+STIMULUS
+        TYPE                    Stim1
+        MODE                    CURRENT
+        PATTERN                 PULSE
+        TIMING                  EXACT
+        SAMESEED                NO
+        AMP_START               0.5
+        VERT_TRANS              0.0
+        TIME_START              0.0
+        TIME_END                0.05
+        FREQ_START              10
+END_STIMULUS
+
+STIMULUS_INJECT
+        TYPE sine1
+        STIM_TYPE Stim1
+        INJECT Col1 L1 Cell1 S1 1.000000
+END_STIMULUS_INJECT
+
+REPORT
+        TYPE r1
+        FILENAME Vcell.txt
+        PROB 1.0
+        FREQUENCY 1.000000
+        ASCII
+        REPORT_ON VOLTAGE
+        TIME_START 0.000000 
+        TIME_END 0.500000 
+        CELLS Col1 L1 Cell1 S1
+END_REPORT
